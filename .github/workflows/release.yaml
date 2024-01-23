@@ -10,6 +10,9 @@ env:
   # Set the binary name
   BINARY_NAME: chained-ci-example
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build and Upload Release Asset
