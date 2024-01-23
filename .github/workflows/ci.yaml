@@ -23,10 +23,11 @@ jobs:
     - name: Get dependencies
       run: go get -v -t -d ./...
 
+    - name: Install Gosec
+      run: go install github.com/securego/gosec/v2/cmd/gosec@latest
+
     - name: Run Gosec Security Scanner
-      uses: securego/gosec-action@v2
-      with:
-        args: './...'
+      run: gosec ./...
 
     - name: Install golangci-lint
       run: |
