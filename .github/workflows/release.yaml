@@ -45,3 +45,11 @@ jobs:
           asset_path: ./${{ env.BINARY_NAME }}
           asset_name: ${{ env.BINARY_NAME }}
           asset_content_type: application/octet-stream
+
+      - name: Dispatch Event to Repo chained-ci-cross-repo-example
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.REPO_B_PAT }}
+          repository: knelasevero/chained-ci-cross-repo-example
+          event-type: new-release
+          client-payload: '{"tag_name": "${{ github.event.release.tag_name }}"}'
