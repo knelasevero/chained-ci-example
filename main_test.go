@@ -1,7 +1,7 @@
 package main
 
 import (
-    "io/ioutil"
+    "io"
     "net/http"
     "net/http/httptest"
     "testing"
@@ -24,7 +24,7 @@ func TestServerHandler(t *testing.T) {
     }
 
     // Check the response body
-    body, err := ioutil.ReadAll(resp.Body)
+    body, err := io.ReadAll(resp.Body)
     resp.Body.Close()
     if err != nil {
         t.Fatalf("Expected no error reading response body, got %v", err)
