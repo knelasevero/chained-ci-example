@@ -63,7 +63,6 @@ jobs:
           args: ./...
 
   build:
-    name: Build and Lint
     runs-on: ubuntu-latest
 
     steps:
