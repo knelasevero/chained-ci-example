@@ -1,0 +1,44 @@
+name: Release Workflow
+
+on:
+  release:
+    types: [created]
+
+env:
+  # Set the Go version
+  GO_VERSION: '1.21'
+  # Set the binary name
+  BINARY_NAME: chained-ci-example
+
+jobs:
+  build:
+    name: Build and Upload Release Asset
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Get dependencies
+        run: go get -v -t -d ./...
+
+      - name: Test
+        run: go test ./...
+
+      - name: Build Binary
+        run: go build -o ${{ env.BINARY_NAME }} ./...
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./${{ env.BINARY_NAME }}
+          asset_name: ${{ env.BINARY_NAME }}
+          asset_content_type: application/octet-stream
